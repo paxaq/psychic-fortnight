@@ -5,6 +5,8 @@ METHOD:PUBLISH
 PRODID:-//Your University//Course Schedule//EN
 X-PUBLISHED-TTL:PT1H
 
+
+
 BEGIN:VEVENT
 SUMMARY:Introduction Computer Programming using Python
 DESCRIPTION:Course Code: CST8279, Section: 300, Delivery: Theory, Professor: Jerome Mizon
