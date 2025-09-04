@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 Fall Timetable - Made by Jason</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent-1: #e74c3c;
+            --accent-2: #3498db;
+            --accent-3: #2ecc71;
+            --accent-4: #f39c12;
+            --accent-5: #9b59b6;
+            --light-bg: #ecf0f1;
+            --white: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .calendar-controls {
+            background: var(--secondary);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .month-nav {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: var(--accent-2);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-1);
+            transform: translateY(-2px);
+        }
+
+        .current-month {
+            font-size: 1.3em;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: var(--light-bg);
+        }
+
+        .calendar-day {
+            background: var(--white);
+            min-height: 120px;
+            padding: 10px;
+            position: relative;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-day:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .day-number {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .day-name {
+            font-size: 0.9em;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .weekend {
+            background: #f8f9fa;
+        }
+
+        .today {
+            border-bottom-color: var(--accent-1);
+            background: #fffaf0;
+        }
+
+        .holiday {
+            background: #ffe6e6;
+            border-bottom-color: var(--accent-1);
+        }
+
+        .class-event {
+            background: var(--accent-2);
+            color: var(--white);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin: 2px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .class-event:hover {
+            transform: scale(1.05);
+        }
+
+        .event-cst8256 { background: var(--accent-2); }
+        .event-enl8720 { background: var(--accent-3); }
+        .event-cst8257 { background: var(--accent-4); }
+        .event-cst8258 { background: var(--accent-5); }
+
+        .legend {
+            padding: 20px;
+            background: var(--light-bg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 768px) {
+            .calendar-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-day {
+                min-height: 80px;
+            }
+            
+            .calendar-controls {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .month-nav {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 2025 Fall Semester Timetable</h1>
+            <p>Made By Jason Pan</p>
+        </div>
+
+        <div class="calendar-controls">
+            <div class="month-nav">
+                <button class="nav-btn" onclick="changeMonth(-1)">← Previous</button>
+                <span class="current-month" id="currentMonth">September 2025</span>
+                <button class="nav-btn" onclick="changeMonth(1)">Next →</button>
+            </div>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid">
+            <!-- Calendar will be generated here -->
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--accent-2);"></div>
+                <span>CST8256 - Web Programming</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--accent-3);"></div>
+                <span>ENL8720 - Technical Communication</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--accent-4);"></div>
+                <span>CST8257 - Web Applications</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--accent-5);"></div>
+                <span>CST8258 - Project Management</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">×</span>
+            <h2 id="modalTitle">Class Details</h2>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentDate = new Date(2025, 8, 1); // September 1, 2025
+        let courses = [
+            {
+                name: "Web Programming Languages I",
+                code: "CST8256",
+                section: "010",
+                delivery: "Theory",
+                professor: "Wei Gong",
+                room: "A2043, Woodroffe",
+                day: "Monday",
+                time: "11:00 until 13:00",
+                startDate: "01-Sep-2025",
+                endDate: "01-Dec-2025"
+            },
+            {
+                name: "Web Programming Languages I",
+                code: "CST8256",
+                section: "011",
+                delivery: "Lab",
+                professor: "Wei Gong",
+                room: "WP216A, Woodroffe",
+                day: "Monday",
+                time: "14:00 until 17:00",
+                startDate: "01-Sep-2025",
+                endDate: "01-Dec-2025"
+            },
+            {
+                name: "Technical Communication for Technicians",
+                code: "ENL8720",
+                section: "300",
+                delivery: "Theory",
+                professor: "Laura McHugh",
+                room: "WB332, Woodroffe",
+                day: "Tuesday",
+                time: "14:00 until 16:00",
+                startDate: "02-Sep-2025",
+                endDate: "09-Dec-2025"
+            },
+            {
+                name: "Web Applications Development",
+                code: "CST8257",
+                section: "301",
+                delivery: "Lab",
+                professor: "Michael Alan Eisenbraun",
+                room: "WC150, Woodroffe",
+                day: "Tuesday",
+                time: "17:00 until 20:00",
+                startDate: "02-Sep-2025",
+                endDate: "14-Oct-2025"
+            },
+            {
+                name: "Web Applications Development",
+                code: "CST8257",
+                section: "300",
+                delivery: "Theory",
+                professor: "Michael Alan Eisenbraun",
+                room: "A2003, Woodroffe",
+                day: "Wednesday",
+                time: "17:00 until 19:00",
+                startDate: "03-Sep-2025",
+                endDate: "15-Oct-2025"
+            },
+            {
+                name: "Web Project Management",
+                code: "CST8258",
+                section: "300",
+                delivery: "Theory",
+                professor: "Steve Bulgin",
+                room: "A1128, Woodroffe",
+                day: "Wednesday",
+                time: "19:30 until 20:30",
+                startDate: "03-Sep-2025",
+                endDate: "03-Dec-2025"
+            },
+            {
+                name: "Web Project Management",
+                code: "CST8258",
+                section: "301",
+                delivery: "Lab",
+                professor: "Steve Bulgin",
+                room: "A1128, Woodroffe",
+                day: "Wednesday",
+                time: "20:30 until 21:30",
+                startDate: "03-Sep-2025",
+                endDate: "03-Dec-2025"
+            },
+            {
+                name: "Web Applications Development",
+                code: "CST8257",
+                section: "301",
+                delivery: "Lab",
+                professor: "Steve Bulgin",
+                room: "WC150, Woodroffe",
+                day: "Tuesday",
+                time: "17:00 until 20:00",
+                startDate: "28-Oct-2025",
+                endDate: "02-Dec-2025"
+            },
+            {
+                name: "Web Applications Development",
+                code: "CST8257",
+                section: "300",
+                delivery: "Theory",
+                professor: "Steve Bulgin",
+                room: "A2003, Woodroffe",
+                day: "Wednesday",
+                time: "17:00 until 19:00",
+                startDate: "29-Oct-2025",
+                endDate: "03-Dec-2025"
+            }
+        ];
+
+        let holidays = [
+            { name: "Labour Day", date: "Sep 01", description: "College Closed", isRange: false },
+            { name: "AC Day 1", date: "Sep 02", description: "Special Event", isRange: false },
+            { name: "Thanksgiving Day", date: "Oct 13", description: "College Closed", isRange: false },
+            { name: "Mid-Term Break", date: "Oct 20 to Oct 24", description: "College Closed", isRange: true, startDate: "Oct 20", endDate: "Oct 24" },
+            { name: "Christmas Day", date: "Dec 25", description: "College Closed", isRange: false },
+            { name: "Boxing Day", date: "Dec 26", description: "College Closed", isRange: false },
+            { name: "Christmas Break", date: "Dec 27 to Dec 31", description: "College Closed", isRange: true, startDate: "Dec 27", endDate: "Dec 31" },
+            { name: "New Year's Day", date: "Jan 01", description: "", isRange: false }
+        ];
+
+        const courseColors = {
+            'CST8256': 'event-cst8256',
+            'ENL8720': 'event-enl8720', 
+            'CST8257': 'event-cst8257',
+            'CST8258': 'event-cst8258'
+        };
+
+        function renderCalendar() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            const monthYear = document.getElementById('currentMonth');
+            
+            calendarGrid.innerHTML = '';
+            monthYear.textContent = currentDate.toLocaleDateString('en-US', { 
+                month: 'long', 
+                year: 'numeric' 
+            });
+
+            renderMonthView();
+        }
+
+        function renderMonthView() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            // Add day headers
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            days.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day';
+                dayHeader.innerHTML = `<div class="day-header"><span class="day-name">${day}</span></div>`;
+                dayHeader.style.background = '#e8f4f8';
+                dayHeader.style.fontWeight = 'bold';
+                calendarGrid.appendChild(dayHeader);
+            });
+
+            // Get first day of month and total days
+            const firstDay = new Date(year, month, 1).getDay();
+            const lastDay = new Date(year, month + 1, 0).getDate();
+            
+            // Add empty cells for days before first day of month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                emptyDay.style.background = '#f8f9fa';
+                emptyDay.style.opacity = '0.5';
+                calendarGrid.appendChild(emptyDay);
+            }
+
+            // Add days of month
+            for (let day = 1; day <= lastDay; day++) {
+                const date = new Date(year, month, day);
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                
+                // Check if weekend
+                if (date.getDay() === 0 || date.getDay() === 6) {
+                    dayElement.classList.add('weekend');
+                }
+
+                // Check if today
+                const today = new Date();
+                if (date.toDateString() === today.toDateString()) {
+                    dayElement.classList.add('today');
+                }
+
+                // Check for holidays
+                const holiday = holidays.find(h => {
+                    if (h.isRange) {
+                        const startDate = parseDate(h.startDate);
+                        const endDate = parseDate(h.endDate);
+                        return startDate && endDate && date >= startDate && date <= endDate;
+                    } else {
+                        const holidayDate = parseDate(h.date);
+                        return holidayDate && holidayDate.toDateString() === date.toDateString();
+                    }
+                });
+
+                if (holiday) {
+                    dayElement.classList.add('holiday');
+                }
+
+                dayElement.innerHTML = `
+                    <div class="day-header">
+                        <span class="day-number">${day}</span>
+                        <span class="day-name">${days[date.getDay()]}</span>
+                    </div>
+                `;
+
+                // Add classes for this day
+                const dayClasses = getClassesForDate(date);
+                dayClasses.forEach(classInfo => {
+                    const eventElement = document.createElement('div');
+                    eventElement.className = `class-event ${courseColors[classInfo.code] || ''}`;
+                    eventElement.textContent = `${classInfo.code} ${classInfo.time}`;
+                    eventElement.onclick = () => showClassDetails(classInfo);
+                    dayElement.appendChild(eventElement);
+                });
+
+                // Add holiday notice
+                if (holiday) {
+                    const holidayElement = document.createElement('div');
+                    holidayElement.className = 'class-event';
+                    holidayElement.style.background = 'var(--accent-1)';
+                    holidayElement.textContent = holiday.name;
+                    holidayElement.onclick = () => showHolidayDetails(holiday);
+                    dayElement.appendChild(holidayElement);
+                }
+
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        function getClassesForDate(date) {
+            return courses.filter(course => {
+                const courseDay = getDayNumber(course.day);
+                if (courseDay !== date.getDay()) return false;
+
+                const startDate = parseDate(course.startDate);
+                const endDate = parseDate(course.endDate);
+                
+                return startDate && endDate && 
+                       date >= startDate && 
+                       date <= endDate;
+            });
+        }
+
+        function getDayNumber(dayName) {
+            const days = {
+                'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3,
+                'Thursday': 4, 'Friday': 5, 'Saturday': 6
+            };
+            return days[dayName];
+        }
+
+        function parseDate(dateStr) {
+            if (!dateStr) return null;
+            
+            // Handle date formats like "01-Sep-2025"
+            const months = {
+                'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+                'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+            };
+            
+            const parts = dateStr.split('-');
+            if (parts.length === 3) {
+                const day = parseInt(parts[0]);
+                const month = months[parts[1]];
+                const year = parseInt(parts[2]);
+                
+                if (!isNaN(day) && month !== undefined && !isNaN(year)) {
+                    return new Date(year, month, day);
+                }
+            }
+            
+            // Try to parse holiday dates like "Sep 01"
+            const holidayParts = dateStr.split(' ');
+            if (holidayParts.length === 2) {
+                const month = months[holidayParts[0]];
+                const day = parseInt(holidayParts[1]);
+                if (month !== undefined && !isNaN(day)) {
+                    return new Date(2025, month, day);
+                }
+            }
+            
+            return null;
+        }
+
+        function showClassDetails(classInfo) {
+            document.getElementById('modalTitle').textContent = classInfo.name;
+            document.getElementById('modalContent').innerHTML = `
+                <p><strong>Course Code:</strong> ${classInfo.code}</p>
+                <p><strong>Section:</strong> ${classInfo.section}</p>
+                <p><strong>Delivery:</strong> ${classInfo.delivery}</p>
+                <p><strong>Professor:</strong> ${classInfo.professor}</p>
+                <p><strong>Room:</strong> ${classInfo.room}</p>
+                <p><strong>Time:</strong> ${classInfo.time}</p>
+                <p><strong>Day:</strong> ${classInfo.day}</p>
+                <p><strong>Duration:</strong> ${classInfo.startDate} to ${classInfo.endDate}</p>
+            `;
+            document.getElementById('eventModal').style.display = 'block';
+        }
+
+        function showHolidayDetails(holiday) {
+            document.getElementById('modalTitle').textContent = holiday.name;
+            document.getElementById('modalContent').innerHTML = `
+                <p><strong>Date:</strong> ${holiday.date}</p>
+                <p><strong>Description:</strong> ${holiday.description || 'College closed'}</p>
+            `;
+            document.getElementById('eventModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('eventModal').style.display = 'none';
+        }
+
+        function changeMonth(delta) {
+            currentDate.setMonth(currentDate.getMonth() + delta);
+            renderCalendar();
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('eventModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Initialize calendar
+        renderCalendar();
+    </script>
+</body>
+</html>
