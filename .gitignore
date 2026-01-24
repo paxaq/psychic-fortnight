@@ -1,0 +1,21 @@
+# 环境变量
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+
+# 输出目录
+output/
+
+# 音色数据
+voices.json
+
+# 音频文件
+*.mp3
+*.mp4
+*.wav
+*.m4a
+*.flac
+*.ogg
