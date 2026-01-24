@@ -1,0 +1,133 @@
+2025 Fall Timetable
+
+
+Course Name: Web Programming Languages I
+Course Code: CST8256 
+Section: 010
+Delivery: Theory
+Professor: Wei Gong
+Room Number/ Location: A2043, Woodroffe                     
+Day of Class: Monday
+Time: 11:00 until 13:00
+Start Date: 01-Sep-2025
+End Date: 01-Dec-2025
+Academic Penalty Withdrawal Date: 10-Nov-2025
+
+
+Course Name: Web Programming Languages I
+Course Code: CST8256 
+Section: 011
+Delivery: Lab
+Professor: Wei Gong
+Room Number/ Location: WP216A, Woodroffe                     
+Day of Class: Monday
+Time: 14:00 until 17:00
+Start Date: 01-Sep-2025
+End Date: 01-Dec-2025
+Academic Penalty Withdrawal Date: 10-Nov-2025
+
+
+Course Name: Technical Communication for Technicians
+Course Code: ENL8720 
+Section: 300
+Delivery: Theory
+Professor: Laura McHugh
+Room Number/ Location: WB332, Woodroffe                     
+Day of Class: Tuesday
+Time: 14:00 until 16:00
+Start Date: 02-Sep-2025
+End Date: 09-Dec-2025
+Academic Penalty Withdrawal Date: 10-Nov-2025
+
+
+Course Name: Web Applications Development
+Course Code: CST8257 
+Section: 301
+Delivery: Lab
+Professor: Michael Alan Eisenbraun
+Room Number/ Location: WC150, Woodroffe                     
+Day of Class: Tuesday
+Time: 17:00 until 20:00
+Start Date: 02-Sep-2025
+End Date: 14-Oct-2025
+Academic Penalty Withdrawal Date: 10-Nov-2025
+
+
+Course Name: Web Applications Development
+Course Code: CST8257 
+Section: 300
+Delivery: Theory
+Professor: Michael Alan Eisenbraun
+Room Number/ Location: A2003, Woodroffe                     
+Day of Class: Wednesday
+Time: 17:00 until 19:00
+Start Date: 03-Sep-2025
+End Date: 15-Oct-2025
+Academic Penalty Withdrawal Date: 10-Nov-2025
+
+
+Course Name: Web Project Management
+Course Code: CST8258 
+Section: 300
+Delivery: Theory
+Professor: Steve Bulgin
+Room Number/ Location: A1128, Woodroffe                     
+Day of Class: Wednesday
+Time: 19:30 until 20:30
+Start Date: 03-Sep-2025
+End Date: 03-Dec-2025
+Academic Penalty Withdrawal Date: 10-Nov-2025
+
+
+Course Name: Web Project Management
+Course Code: CST8258 
+Section: 301
+Delivery: Lab
+Professor: Steve Bulgin
+Room Number/ Location: A1128, Woodroffe                     
+Day of Class: Wednesday
+Time: 20:30 until 21:30
+Start Date: 03-Sep-2025
+End Date: 03-Dec-2025
+Academic Penalty Withdrawal Date: 10-Nov-2025
+
+
+Course Name: Web Applications Development
+Course Code: CST8257 
+Section: 301
+Delivery: Lab
+Professor: Steve Bulgin
+Room Number/ Location: WC150, Woodroffe                     
+Day of Class: Tuesday
+Time: 17:00 until 20:00
+Start Date: 28-Oct-2025
+End Date: 02-Dec-2025
+Academic Penalty Withdrawal Date: 10-Nov-2025
+
+
+Course Name: Web Applications Development
+Course Code: CST8257 
+Section: 300
+Delivery: Theory
+Professor: Steve Bulgin
+Room Number/ Location: A2003, Woodroffe                     
+Day of Class: Wednesday
+Time: 17:00 until 19:00
+Start Date: 29-Oct-2025
+End Date: 03-Dec-2025
+Academic Penalty Withdrawal Date: 10-Nov-2025
+
+
+
+No class days :
+
+Labour Day	Sep 01	College Closed
+AC Day 1	Sep 02	Special Event
+Thanksgiving Day	Oct 13	College Closed
+Mid-Term Break	Oct 20 to Oct 24	 
+Christmas Day	Dec 25	College Closed
+Boxing Day	Dec 26	College Closed
+Christmas Break	Dec 27 to Dec 31	College Closed
+New Year's Day	Jan 01	
+
+
