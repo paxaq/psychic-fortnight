@@ -33,17 +33,17 @@ case $OS in
             echo "错误: 请先安装 Homebrew (https://brew.sh)"
             exit 1
         fi
-        brew install portaudio
+        brew install ffmpeg
         ;;
     debian)
         sudo apt-get update
-        sudo apt-get install -y portaudio19-dev python3-venv python3-dev
+        sudo apt-get install -y ffmpeg python3-venv python3-dev
         ;;
     redhat)
-        sudo yum install -y portaudio portaudio-devel python3-devel
+        sudo yum install -y ffmpeg python3-devel
         ;;
     *)
-        echo "警告: 未知操作系统，请手动安装 portaudio"
+        echo "警告: 未知操作系统，请手动安装 ffmpeg"
         ;;
 esac
 echo "✓ 系统依赖安装完成"

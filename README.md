@@ -7,7 +7,7 @@
 - 🎙️ **声音复刻** - 上传 10-20 秒录音，创建专属音色
 - 💾 **音色管理** - 保存、复用、删除已创建的音色
 - 📝 **多行输入** - 支持多行文本输入，连续 3 次回车开始合成
-- 🎵 **WAV 输出** - 合成的音频保存为 WAV 文件
+- 🎵 **MP3 输出** - 自动转换为 MP3 格式，文件更小
 
 ## 快速开始
 
@@ -80,8 +80,10 @@ source venv/bin/activate
 🎬 会话已创建
 📥 正在接收音频... 完成
 
-💾 音频已保存: output/tts_20260124_120530.wav
-   文件大小: 156.2 KB
+🔄 正在转换为 MP3... 完成
+
+💾 音频已保存: output/tts_20260124_120530.mp3
+   文件大小: 48.5 KB
 ```
 
 ## 文件结构
@@ -94,12 +96,13 @@ qwen-voice-easy-clone/
 ├── .env               # 配置文件（需创建）
 ├── voices.json        # 已保存的音色（自动生成）
 └── output/            # 合成的音频文件
-    └── tts_*.wav
+    └── tts_*.mp3
 ```
 
 ## 环境要求
 
 - Python 3.10+
+- ffmpeg（用于 MP3 转换）
 - Linux / macOS / Windows
 
 ## 依赖
@@ -107,6 +110,7 @@ qwen-voice-easy-clone/
 - `dashscope` >= 1.23.9
 - `python-dotenv`
 - `requests`
+- `ffmpeg`（系统依赖）
 
 ## API 参考
 

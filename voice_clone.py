@@ -14,6 +14,8 @@ import pathlib
 import threading
 import time
 import wave
+import subprocess
+import shutil
 from datetime import datetime
 import dashscope
 from dotenv import load_dotenv
@@ -200,6 +202,24 @@ def ensure_output_dir():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
+def has_ffmpeg() -> bool:
+    """检查是否安装了 ffmpeg"""
+    return shutil.which('ffmpeg') is not None
+
+
+def convert_wav_to_mp3(wav_path: pathlib.Path, mp3_path: pathlib.Path, bitrate: str = "128k") -> bool:
+    """将 WAV 文件转换为 MP3"""
+    try:
+        subprocess.run([
+            'ffmpeg', '-y', '-i', str(wav_path),
+            '-codec:a', 'libmp3lame', '-b:a', bitrate,
+            str(mp3_path)
+        ], capture_output=True, check=True)
+        return True
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return False
+
+
 def save_pcm_to_wav(pcm_data: bytes, output_path: pathlib.Path, sample_rate: int = 24000, channels: int = 1, sample_width: int = 2):
     """将 PCM 数据保存为 WAV 文件"""
     # 确保目录存在
@@ -320,10 +340,29 @@ def synthesize_speech(text: str, voice: str, api_key: str) -> pathlib.Path | Non
             return None
 
         if callback.audio_chunks:
-            file_size = output_path.stat().st_size / 1024
-            print(f"\n💾 音频已保存: {output_path}")
-            print(f"   文件大小: {file_size:.1f} KB")
-            return output_path
+            # 转换为 MP3
+            if has_ffmpeg():
+                mp3_path = output_path.with_suffix('.mp3')
+                print(f"\n🔄 正在转换为 MP3...", end="", flush=True)
+                if convert_wav_to_mp3(output_path, mp3_path):
+                    output_path.unlink()  # 删除 WAV 文件
+                    file_size = mp3_path.stat().st_size / 1024
+                    print(f" 完成")
+                    print(f"\n💾 音频已保存: {mp3_path}")
+                    print(f"   文件大小: {file_size:.1f} KB")
+                    return mp3_path
+                else:
+                    print(f" 失败，保留 WAV 格式")
+                    file_size = output_path.stat().st_size / 1024
+                    print(f"\n💾 音频已保存: {output_path}")
+                    print(f"   文件大小: {file_size:.1f} KB")
+                    return output_path
+            else:
+                file_size = output_path.stat().st_size / 1024
+                print(f"\n💾 音频已保存: {output_path}")
+                print(f"   文件大小: {file_size:.1f} KB")
+                print(f"   提示: 安装 ffmpeg 可自动转换为 MP3")
+                return output_path
         else:
             print(f"\n❌ 未收到音频数据")
             return None
